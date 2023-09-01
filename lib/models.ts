@@ -1,4 +1,4 @@
-export const types = ["GPT-3", "Codex"] as const
+export const types = ["OpenAI", "Llama"] as const
 
 export type ModelType = (typeof types)[number]
 
@@ -12,51 +12,93 @@ export interface Model<Type = string> {
 
 export const models: Model<ModelType>[] = [
   {
-    id: "c305f976-8e38-42b1-9fb7-d21b2e34f0da",
-    name: "text-davinci-003",
+    id: "gpt-4",
+    name: "gpt-4",
     description:
-      "Most capable GPT-3 model. Can do any task the other models can do, often with higher quality, longer output and better instruction-following. Also supports inserting completions within text.",
-    type: "GPT-3",
+      "Most capable but slower OpenAI model. Can do any task the other models can do, often with higher quality, longer output and better instruction-following. Also supports inserting completions within text.",
+    type: "OpenAI",
     strengths:
       "Complex intent, cause and effect, creative generation, search, summarization for audience",
   },
   {
-    id: "464a47c3-7ab5-44d7-b669-f9cb5a9e8465",
-    name: "text-curie-001",
-    description: "Very capable, but faster and lower cost than Davinci.",
-    type: "GPT-3",
+    id: "gpt-4-0314",
+    name: "gpt-4-0314",
+    description: "Very capable, but faster and lower cost than gpt-4.",
+    type: "OpenAI",
     strengths:
       "Language translation, complex classification, sentiment, summarization",
   },
   {
-    id: "ac0797b0-7e31-43b6-a494-da7e2ab43445",
-    name: "text-babbage-001",
+    id: "gpt-4-0613",
+    name: "gpt-4-0613",
     description: "Capable of straightforward tasks, very fast, and lower cost.",
-    type: "GPT-3",
+    type: "OpenAI",
     strengths: "Moderate classification, semantic search",
   },
   {
-    id: " be638fb1-973b-4471-a49c-290325085802",
-    name: "text-ada-001",
+    id: "gpt-4-32k",
+    name: "gpt-4-32k",
     description:
-      "Capable of very simple tasks, usually the fastest model in the GPT-3 series, and lowest cost.",
-    type: "GPT-3",
+      "Capable of very simple tasks, usually the fastest model in the OpenAI series, and lowest cost.",
+    type: "OpenAI",
     strengths:
       "Parsing text, simple classification, address correction, keywords",
   },
   {
-    id: "b43c0ea9-5ad4-456a-ae29-26cd77b6d0fb",
-    name: "code-davinci-002",
+    id: "gpt-4-32k-0314",
+    name: "gpt-4-32k-0314",
     description:
-      "Most capable Codex model. Particularly good at translating natural language to code. In addition to completing code, also supports inserting completions within code.",
-    type: "Codex",
+      "Fairly decent and really fast OpenAI model. Can do any task the other models can do, often with higher quality, longer output and better instruction-following. Also supports inserting completions within text.",
+    type: "OpenAI",
+    strengths:
+      "Complex intent, cause and effect, creative generation, search, summarization for audience",
   },
   {
-    id: "bbd57291-4622-4a21-9eed-dd6bd786fdd1",
-    name: "code-cushman-001",
+    id: "gpt-4-32k-0613",
+    name: "gpt-4-32k-0613",
+    description: "Very capable, but faster and lower cost than gpt-4-32k-0314.",
+    type: "OpenAI",
+    strengths:
+      "Language translation, complex classification, sentiment, summarization",
+  },
+  {
+    id: "gpt-3.5-turbo",
+    name: "gpt-3.5-turbo",
+    description: "Capable of straightforward tasks, very fast, and lower cost.",
+    type: "OpenAI",
+    strengths: "Moderate classification, semantic search",
+  },
+  {
+    id: "gpt-3.5-turbo-16k",
+    name: "gpt-3.5-turbo-16k",
     description:
-      "Almost as capable as Davinci Codex, but slightly faster. This speed advantage may make it preferable for real-time applications.",
-    type: "Codex",
-    strengths: "Real-time application where low-latency is preferable",
+      "Capable of very simple tasks, usually the fastest model in the OpenAI series, and lowest cost.",
+    type: "OpenAI",
+    strengths:
+      "Parsing text, simple classification, address correction, keywords",
+  },
+  {
+    id: "gpt-3.5-turbo-0301",
+    name: "gpt-3.5-turbo-0301",
+    description:
+      "Fairly decent and really fast OpenAI model. Can do any task the other models can do, often with higher quality, longer output and better instruction-following. Also supports inserting completions within text.",
+    type: "OpenAI",
+    strengths:
+      "Complex intent, cause and effect, creative generation, search, summarization for audience",
+  },
+  {
+    id: "gpt-3.5-turbo-0613",
+    name: "gpt-3.5-turbo-0613",
+    description: "Very capable, but faster and lower cost than gpt-3.5-turbo-0301.",
+    type: "OpenAI",
+    strengths:
+      "Language translation, complex classification, sentiment, summarization",
+  },
+  {
+    id: "gpt-3.5-turbo-16k-0613",
+    name: "gpt-3.5-turbo-16k-0613",
+    description: "Capable of straightforward tasks, very fast, and lower cost.",
+    type: "OpenAI",
+    strengths: "Moderate classification, semantic search",
   },
 ]

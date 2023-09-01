@@ -23,19 +23,20 @@ import {
 import { Preset } from "@/lib/presets"
 
 interface PresetSelectorProps extends PopoverProps {
+  preset?: Preset
   presets: Preset[]
 }
 
-export function PresetSelector({ presets, ...props }: PresetSelectorProps) {
+export function PresetSelector({ preset, presets, ...props }: PresetSelectorProps) {
   const [open, setOpen] = React.useState(false)
-  const [selectedPreset, setSelectedPreset] = React.useState<Preset>()
+  const [selectedPreset, setSelectedPreset] = React.useState<Preset | undefined>(preset)
   const router = useRouter()
 
   return (
     <Popover open={open} onOpenChange={setOpen} {...props}>
       <PopoverTrigger asChild>
         <Button
-          variant="outline"
+          variant="ghost"
           role="combobox"
           aria-label="Load a preset..."
           aria-expanded={open}
@@ -56,6 +57,7 @@ export function PresetSelector({ presets, ...props }: PresetSelectorProps) {
                 onSelect={() => {
                   setSelectedPreset(preset)
                   setOpen(false)
+                  router.push(`/p/${preset.id}`)
                 }}
               >
                 {preset.name}

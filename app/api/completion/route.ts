@@ -13,20 +13,19 @@ export async function POST(req: Request) {
  
   // Request the OpenAI API for the response based on the prompt
   const response = await openai.chat.completions.create({
-    model: 'gpt-3.5-turbo',
+    model: 'gpt-4',
     stream: true,
     // a precise prompt is important for the AI to reply with the correct tokens
     messages: [
       {
+        role: 'system',
+        content: 'You are a legal contract assistant. Your job is to edit the draft contract in accordance with the user instructions. You must always return the full contract, even if the user only asks to change a small part of it.'
+      },
+      {
         role: 'user',
-        content: `Given the following post content, detect if it has typo or not. 
-Respond with a JSON array of typos ["typo1", "typo2", ...] or an empty [] if there's none. Only respond with an array. Post content:
-${prompt}
-        
-Output:\n`
+        content: prompt,  
       }
     ],
-    max_tokens: 200,
     temperature: 0, // you want absolute certainty for spell check
     top_p: 1,
     frequency_penalty: 1,
