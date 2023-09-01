@@ -5,6 +5,7 @@ import { NodeSelector } from "./node-selector";
 import { ColorSelector } from "./color-selector";
 import { LinkSelector } from "./link-selector";
 import { cn } from "@/lib/utils";
+import { InstructionPrompter } from "./instruction-prompter";
 
 export interface BubbleMenuItem {
   name: string;
@@ -17,23 +18,23 @@ type EditorBubbleMenuProps = Omit<BubbleMenuProps, "children">;
 
 export const EditorBubbleMenu: FC<EditorBubbleMenuProps> = (props) => {
   const items: BubbleMenuItem[] = [
-    {
-      name: 'AI Edit',
-      isActive: () => false,
-      command: () => {
-        // get the current selection
-        if (!props.editor) return;
-        const { from, to, content } = props.editor.state.selection;
-        console.log('current selection', from, to);
+    // {
+    //   name: 'AI Edit',
+    //   isActive: () => false,
+    //   command: () => {
+    //     // get the current selection
+    //     if (!props.editor) return;
+    //     const { from, to, content } = props.editor.state.selection;
+    //     console.log('current selection', from, to);
 
-        const text = content().content;
+    //     const text = content().content;
 
-        // send the text to the AI
+    //     // send the text to the AI
         
 
-      },
-      icon: MagicWandIcon,
-    },
+    //   },
+    //   icon: MagicWandIcon,
+    // },
     {
       name: "bold",
       isActive: () => props?.editor?.isActive("bold") ?? false,
@@ -84,6 +85,7 @@ export const EditorBubbleMenu: FC<EditorBubbleMenuProps> = (props) => {
   const [isNodeSelectorOpen, setIsNodeSelectorOpen] = useState(false);
   const [isColorSelectorOpen, setIsColorSelectorOpen] = useState(false);
   const [isLinkSelectorOpen, setIsLinkSelectorOpen] = useState(false);
+  const [isInstructionPrompterOpen, setIsInstructionPrompterOpen] = useState(false);
 
   return (
     <BubbleMenu
@@ -97,8 +99,19 @@ export const EditorBubbleMenu: FC<EditorBubbleMenuProps> = (props) => {
           setIsNodeSelectorOpen(!isNodeSelectorOpen);
           setIsColorSelectorOpen(false);
           setIsLinkSelectorOpen(false);
+          setIsInstructionPrompterOpen(false);
         }}
       />}
+       {
+        props.editor && <InstructionPrompter editor={props.editor}
+        isOpen={isInstructionPrompterOpen}
+        setIsOpen={() => {
+          setIsInstructionPrompterOpen(!isInstructionPrompterOpen);
+          setIsNodeSelectorOpen(false);
+          setIsColorSelectorOpen(false);
+          setIsLinkSelectorOpen(false);
+        }} />
+      }
        {props.editor && <LinkSelector
         editor={props.editor}
         isOpen={isLinkSelectorOpen}
@@ -106,6 +119,7 @@ export const EditorBubbleMenu: FC<EditorBubbleMenuProps> = (props) => {
           setIsLinkSelectorOpen(!isLinkSelectorOpen);
           setIsColorSelectorOpen(false);
           setIsNodeSelectorOpen(false);
+          setIsInstructionPrompterOpen(false);
         }}
       />}
       <div className="flex">
@@ -131,6 +145,7 @@ export const EditorBubbleMenu: FC<EditorBubbleMenuProps> = (props) => {
           setIsColorSelectorOpen(!isColorSelectorOpen);
           setIsNodeSelectorOpen(false);
           setIsLinkSelectorOpen(false);
+          setIsInstructionPrompterOpen(false);
         }}
       />}
     </BubbleMenu>

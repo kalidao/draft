@@ -1,6 +1,10 @@
 import OpenAI from 'openai'
-import { OpenAIStream, StreamingTextResponse } from 'ai'
- 
+import { NextResponse } from 'next/server'
+import { z } from 'zod'
+
+const EditFunction = z.object({
+  edited_draft: z.string()
+})
 export const runtime = 'edge'
  
 const openai = new OpenAI({
@@ -9,30 +13,55 @@ const openai = new OpenAI({
  
 export async function POST(req: Request) {
   // Extract the `prompt` from the body of the request
-  const { prompt } = await req.json()
- 
-  // Request the OpenAI API for the response based on the prompt
+  const { prompt: instruction, content } = await req.json()
+
   const response = await openai.chat.completions.create({
-    model: 'gpt-4',
-    stream: true,
-    // a precise prompt is important for the AI to reply with the correct tokens
+    model: 'gpt-3.5-turbo-0613',
+    stream: false,
     messages: [
       {
         role: 'system',
-        content: 'You are a legal contract assistant. Your job is to edit the draft contract in accordance with the user instructions. You must always return the full contract, even if the user only asks to change a small part of it.'
+        content: `You are a legal contract assistant.
+        Draft
+        \`\`\`
+        ${content}
+        \`\`\`
+        `,
       },
       {
         role: 'user',
-        content: prompt,  
+        content:instruction,
+      },
+    ],
+    functions: [
+      {
+        name: 'edit',
+        description: 'Always return the edited draft using the `edit` function.',
+        parameters: {
+          'type': 'object',
+          properties: {
+            'edited_draft': {
+              'type': 'string',
+              'description': 'The complete edited draft.'
+            }
+          }
+        }
       }
     ],
-    temperature: 0, // you want absolute certainty for spell check
-    top_p: 1,
-    frequency_penalty: 1,
-    presence_penalty: 1
+    function_call: {
+      name: 'edit',
+    }
   })
- 
-  const stream = OpenAIStream(response)
- 
-  return new StreamingTextResponse(stream)
+          
+  // parse the response from OpenAI
+  const reply  = EditFunction.safeParse(JSON.parse(response.choices[0].message.function_call?.arguments ?? '{}'))
+
+  if (!reply.success) {
+    throw new Error('OpenAI response was not valid')
+  }
+
+
+  console.log('reply', reply?.data.edited_draft)
+
+  return NextResponse.json(reply?.data.edited_draft)
 }
