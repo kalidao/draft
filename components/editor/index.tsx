@@ -15,6 +15,7 @@ import { cn } from "@/lib/utils";
 import { Button } from "../ui/button";
 import { DownloadDraft } from "@/components/download-draft";
 import { Preset } from "@/lib/presets";
+import { ChatToggle } from "@/components/chat-toggle";
 
 
 type EditorProps = {
@@ -22,13 +23,17 @@ type EditorProps = {
   preset?: Preset;
   content?: JSONContent;
   setContent: (content: JSONContent) => void;
+  setIsChatOpen: (isChatOpen: boolean) => void;
+  isChatOpen: boolean;
 };
 
 export default function Editor({
   className,
   content,
   setContent, 
-  preset
+  preset,
+  setIsChatOpen,
+  isChatOpen,
 }: EditorProps) {
   const [saveStatus, setSaveStatus] = useState("Saved");
 
@@ -148,13 +153,14 @@ export default function Editor({
       onClick={() => {
         editor?.chain().focus().run();
       }}
-      className={cn("relative min-h-screen w-full max-w-screen-lg border-border bg-background p-12 px-8 sm:rounded-r-2xl sm:border sm:shadow-lg", className)}
+      className={cn("relative min-h-screen w-full max-w-screen border-border bg-background p-12 px-8 sm:rounded-r-2xl sm:border sm:shadow-lg", className)}
     >
       <div className="absolute right-5 top-5 flex flex-row space-x-1">
         <Button disabled={true} size="sm" variant="ghost">
           {saveStatus}
         </Button>
         {editor && <DownloadDraft content={editor?.getHTML()} />}
+        <ChatToggle setIsChatOpen={setIsChatOpen}  isChatOpen={isChatOpen} />
       </div>
       {editor && <EditorBubbleMenu editor={editor} />}
       <EditorContent editor={editor} className="mt-10" />

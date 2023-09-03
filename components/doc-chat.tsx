@@ -4,16 +4,17 @@ import { nanoid } from "ai"
 import { Chat } from "./chat/chat"
 import { getTextFromJSON } from "@/lib/editor"
 import { JSONContent } from "@tiptap/core"
+import { cn } from "@/lib/utils"
 
 interface DocChatProps {
     content?: JSONContent
 }
 export const DocChat = ({
-    content
+    content,
 }: DocChatProps) => {
     const c = getTextFromJSON(content);
 
-    return <Chat className="static min-h-[80vh] max-w-full" initialMessages={[{
+    return <Chat className={"static min-h-[80vh] max-w-full"} initialMessages={[{
         id: nanoid(),
         role: 'system',
         content: `You are a contract drafting assistant. 

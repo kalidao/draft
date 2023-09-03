@@ -1,5 +1,5 @@
 'use client'
-import React from "react"
+import React, { useState } from "react"
 
 import { PresetSelector } from "@/components/preset-selector"
 import {  Model } from "@/lib/models"
@@ -10,6 +10,7 @@ import useLocalStorage from '@/hooks/use-local-storage'
 import { DocChat } from "./doc-chat"
 import DEFAULT_EDITOR_CONTENT from "@/components/editor/default-content";
 import { JSONContent } from "@tiptap/core"
+import { cn } from "@/lib/utils"
 
 interface ContractPlaygroundProps {
     preset?: Preset,
@@ -20,10 +21,13 @@ export const ContractPlayground = ({
     preset,
     model
 }: ContractPlaygroundProps) => {
+    const [isChatOpen, setIsChatOpen] = useState(false);
     const [content, setContent] = useLocalStorage(
       "content",
       preset ? preset.content : DEFAULT_EDITOR_CONTENT,
     ); 
+
+   
 
     return (
       <div className='w-screen min-h-screen grid grid-cols-5 space-y-0'>
@@ -45,16 +49,16 @@ export const ContractPlayground = ({
            {/* <ContractForm preset={preset} /> */}
         {/* </div> */}
             
-            <Editor preset={preset} setContent={setContent as (content: JSONContent) => void} content={content as JSONContent} className="col-span-3 w-full min-h-screen p-4 m-0" /> 
-            <div className="col-span-2 h-full m-0 pt-1">
+            <Editor setIsChatOpen={setIsChatOpen} isChatOpen={isChatOpen} preset={preset} setContent={setContent as (content: JSONContent) => void} content={content as JSONContent} className={cn("w-full min-h-screen p-4 m-0", isChatOpen ? 'col-span-4' : 'col-span-5')} /> 
+            {isChatOpen ? <div className="col-span-1 h-full m-0 pt-1">
               <div className="w-full flex flex-row justify-between">
                 <PresetSelector presets={presets} preset={preset} />
                 {/* <PresetSave />
                 <PresetShare />  */}
                 <SettingsDialog />
               </div>
-              {/* <Separator className='' /> */}
+              {/* <Separator orientation="vertical" className='min-h-screen bg-black w-5' /> */}
               <DocChat content={content as JSONContent} />
-            </div>
+            </div> : null}
           </div>
     )};
