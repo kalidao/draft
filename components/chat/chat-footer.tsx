@@ -2,6 +2,7 @@ import React from 'react'
 
 import { cn } from '@/lib/utils'
 import { ExternalLink } from '@/components/external-link'
+import { siteConfig } from '@/lib/siteConfig'
 
 export function FooterText({ className, ...props }: React.ComponentProps<'p'>) {
   return (
@@ -13,7 +14,7 @@ export function FooterText({ className, ...props }: React.ComponentProps<'p'>) {
       {...props}
     >
       Draft by {'  '}
-      <ExternalLink href="https://nextjs.org">Kali</ExternalLink>
+      <ExternalLink href={siteConfig.twitterUrl}>Kali</ExternalLink>
     </p>
   )
 }

@@ -1,9 +1,10 @@
 import { Metadata } from "next"
 import { ContractPlayground } from "@/components/contract-playground"
+import { siteConfig } from "@/lib/siteConfig"
 
 export const metadata: Metadata = {
-  title: "Playground",
-  description: "The OpenAI Playground built using the components.",
+  title: siteConfig.name,
+  description: siteConfig.description,
 }
 
 export default function PlaygroundPage({
