@@ -13,7 +13,7 @@ import { EditorBubbleMenu } from "./components/bubble-menu";
 import { getPrevText } from "@/lib/editor";
 import { cn } from "@/lib/utils";
 import { Button } from "../ui/button";
-import { DownloadDraft } from "../download-draft";
+import { DownloadDraft } from "@/components/download-draft";
 import { Preset } from "@/lib/presets";
 
 

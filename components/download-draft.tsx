@@ -10,26 +10,33 @@ export function DownloadDraft({
 }) {
     const downloadPDF = async () => {
         try {
-            const doc = new jsPDF({
-                format: 'a4',
-                unit: 'px',
-            });
-    
-          
-            doc.setFont('Inter-Regular', 'normal');
-    
-            doc.html(content, {
-                async callback(doc) {
-                    await doc.save('document');
-                },
-            });
+            const pdf = await fetch('/api/html2pdf', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ html: content })
+                })
+                .then(res => res.blob())
+                .then(blob => {
+                    const url = window.URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+
+                    a.style.display = 'none';
+
+                    a.href = url;
+                    a.download = 'document.pdf';
+                    document.body.appendChild(a);
+                    a.click();
+                    a.remove();
+                    window.URL.revokeObjectURL(url);
+                });    
         } catch (error) {
             console.error('Failed to download PDF:', error);
         }
     };
 
     return <Button size="icon" variant="ghost" onClick={downloadPDF}>
-        {/* <span className="ml-2">Download as PDF</span> */}
         <DownloadIcon className="h-3 w-3" />
     </Button>
 }
