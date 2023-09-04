@@ -12,13 +12,14 @@ export function ButtonScrollToBottom({ className, ...props }: ButtonProps) {
 
   return (
     <Button
-      variant="outline"
+      variant="ghost"
       size="icon"
       className={cn(
-        'sticky z-10 bg-background transition-opacity duration-300',
+        'sticky z-10 bg-background transition-opacity duration-300 right-0 left-full mr-2',
         isAtBottom ? 'opacity-0' : 'opacity-100',
         className
       )}
+      
       onClick={() =>
         window.scrollTo({
           top: document.body.offsetHeight,

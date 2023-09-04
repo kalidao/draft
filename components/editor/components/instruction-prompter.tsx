@@ -1,5 +1,5 @@
 'use client'
-import { Dispatch, FC, SetStateAction, useEffect, useRef } from "react";
+import { Dispatch, FC, SetStateAction, useEffect, useRef, useState } from "react";
 import { Editor } from "@tiptap/core";
 import { TrashIcon } from "lucide-react";
 import { CheckIcon, MagicWandIcon } from "@radix-ui/react-icons";
@@ -12,11 +12,17 @@ interface InstructionPrompterProps {
     setIsOpen: Dispatch<SetStateAction<boolean>>;
 }
 
+interface TextSelection {
+    from: number;
+    to: number;
+}
+
 export const InstructionPrompter: FC<InstructionPrompterProps> = ({
     editor,
     isOpen,
     setIsOpen,
   }) => {
+    const [selection, setSelection] = useState<TextSelection | null>(null);
     const { complete }= useCompletion({
         api: '/api/completion',
     })
@@ -37,6 +43,11 @@ export const InstructionPrompter: FC<InstructionPrompterProps> = ({
         const from = editor.state.selection.from;
         const to = editor.state.selection.to;
 
+        setSelection({
+          from,
+          to
+        });
+
         const content = editor.state.doc.textBetween(from, to);
 
         let res = await complete(
@@ -53,6 +64,8 @@ export const InstructionPrompter: FC<InstructionPrompterProps> = ({
         if (res.startsWith('"') && res.endsWith('"')) {
             res = res.slice(1, -1);
         }
+
+
 
         editor.chain().focus().insertContentAt({
             from: from,

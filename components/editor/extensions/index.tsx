@@ -10,8 +10,10 @@ import TaskList from "@tiptap/extension-task-list";
 import { Markdown } from "tiptap-markdown";
 import Highlight from "@tiptap/extension-highlight";
 import SlashCommand from "./slash-command";
+import CharacterCounter from "@tiptap/extension-character-count";
 import { InputRule } from "@tiptap/core";
 
+export const EDITOR_CHARACTER_LIMIT = 10000;
 
 export const TiptapExtensions = [
   StarterKit.configure({
@@ -117,5 +119,8 @@ export const TiptapExtensions = [
   Markdown.configure({
     html: false,
     transformCopiedText: true,
+  }),
+  CharacterCounter.configure({
+    limit: EDITOR_CHARACTER_LIMIT,
   }),
 ];

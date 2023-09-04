@@ -32,8 +32,8 @@ export function ChatPanel({
 }: ChatPanelProps) {
   return (
     <div className="bottom-0">
-      <ButtonScrollToBottom />
-      <div className="mx-auto sm:max-w-2xl sm:px-2">
+      {messages.length === 1 ? null : <ButtonScrollToBottom />}
+      <div className="mx-auto sm:max-w-2l sm:px-2">
         {/* <div className="flex h-10 items-center justify-center">
           {isLoading ? (
             <Button

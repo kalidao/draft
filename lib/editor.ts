@@ -39,3 +39,7 @@ export const getTextFromJSON = (content?: JSONContent) => {
 
   return result;
 }
+
+export const getCharacterCount = (editor: Editor) => {
+  return editor?.storage?.characterCount?.characters()
+}

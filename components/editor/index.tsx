@@ -4,18 +4,19 @@ import { useEffect, useRef, useState } from "react";
 import { useEditor, EditorContent } from "@tiptap/react";
 import { JSONContent } from '@tiptap/core'
 import { TiptapEditorProps } from "./props";
-import { TiptapExtensions } from "./extensions";
+import { EDITOR_CHARACTER_LIMIT, TiptapExtensions } from "./extensions";
 import { useDebouncedCallback } from "use-debounce";
 import { useCompletion } from "ai/react";
 import { toast } from "sonner";
 import va from "@vercel/analytics";
 import { EditorBubbleMenu } from "./components/bubble-menu";
-import { getPrevText } from "@/lib/editor";
+import { getCharacterCount, getPrevText } from "@/lib/editor";
 import { cn } from "@/lib/utils";
 import { Button } from "../ui/button";
 import { DownloadDraft } from "@/components/download-draft";
 import { Preset } from "@/lib/presets";
 import { ChatToggle } from "@/components/chat-toggle";
+import { Badge } from "@/components/ui/badge";
 
 
 type EditorProps = {
@@ -147,15 +148,17 @@ export default function Editor({
     }
   }, [editor, content, hydrated]);
 
+  console.log('editor?.storage?.characterCount?.characters()', editor?.getCharacterCount())
 
   return (
     <div
       onClick={() => {
         editor?.chain().focus().run();
+        
       }}
       className={cn("relative min-h-screen w-full max-w-screen border-border bg-background p-12 px-8 sm:rounded-r-2xl sm:border sm:shadow-lg", className)}
     >
-      <div className="absolute right-5 top-5 flex flex-row space-x-1">
+      <div className="absolute right-5 top-5 flex flex-row space-x-1 items-center">
         <Button disabled={true} size="sm" variant="ghost">
           {saveStatus}
         </Button>
@@ -163,7 +166,10 @@ export default function Editor({
         <ChatToggle setIsChatOpen={setIsChatOpen}  isChatOpen={isChatOpen} />
       </div>
       {editor && <EditorBubbleMenu editor={editor} />}
-      <EditorContent editor={editor} className="mt-10" />
+      <EditorContent  editor={editor} className="mt-10" />
+      {editor && <Badge variant="secondary"  className='text-secondary-foreground/60 absolute bottom-2 left-2'>
+        {getCharacterCount(editor)}
+      </Badge>}
     </div>
   );
 }
