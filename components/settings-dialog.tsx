@@ -30,7 +30,7 @@ return (
                 Adjust your preferences and settings here.
             </DialogDescription>
             </DialogHeader>
-            <ModelSelector types={types} models={models} model={model} />
+            <ModelSelector types={types} models={models} />
             <TemperatureSelector defaultValue={[0.1]} />
         </DialogContent>
     </Dialog>

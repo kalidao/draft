@@ -4,15 +4,12 @@ import { nanoid } from "ai"
 import { Chat } from "./chat/chat"
 import { getTextFromJSON } from "@/lib/editor"
 import { JSONContent } from "@tiptap/core"
-import { Model } from "@/lib/models"
 
 interface DocChatProps {
     content?: JSONContent,
-    model: Model,
 }
 export const DocChat = ({
     content,
-    model
 }: DocChatProps) => {
     const c = getTextFromJSON(content);
 

@@ -57,7 +57,7 @@ export const ContractPlayground = ({
                 <SettingsDialog />
               </div>
               {/* <Separator orientation="vertical" className='min-h-screen bg-black w-5' /> */}
-              <DocChat model={model} content={content as JSONContent} />
+              <DocChat  content={content as JSONContent} />
             </div> : null}
           </div>
     )};
