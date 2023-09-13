@@ -26,7 +26,7 @@ const DEFAULT_EDITOR_CONTENT = {
               },
             },
           ],
-          text: " Novel.",
+          text: "Novel",
         },
         { type: "text", text: ". Built with " },
         {
