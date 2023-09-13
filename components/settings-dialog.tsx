@@ -10,7 +10,6 @@ import { ModelSelector } from "@/components/model-selector"
 import { SettingsIcon } from "lucide-react"
 import { TemperatureSelector } from "@/components/temperature-selector"
 import { models, types, Model } from "@/lib/models"
-import { presets, Preset } from "@/lib/presets"
 
 interface SettingProps {
     model?: Model,

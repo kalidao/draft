@@ -7,7 +7,9 @@ export interface Model<Type = string> {
   name: string
   description: string
   strengths?: string
-  type: Type
+  type: Type,
+  baseUri: string
+  apiKey: string
 }
 
 export const models: Model<ModelType>[] = [
@@ -19,47 +21,8 @@ export const models: Model<ModelType>[] = [
     type: "OpenAI",
     strengths:
       "Complex intent, cause and effect, creative generation, search, summarization for audience",
-  },
-  {
-    id: "gpt-4-0314",
-    name: "gpt-4-0314",
-    description: "Very capable, but faster and lower cost than gpt-4.",
-    type: "OpenAI",
-    strengths:
-      "Language translation, complex classification, sentiment, summarization",
-  },
-  {
-    id: "gpt-4-0613",
-    name: "gpt-4-0613",
-    description: "Capable of straightforward tasks, very fast, and lower cost.",
-    type: "OpenAI",
-    strengths: "Moderate classification, semantic search",
-  },
-  {
-    id: "gpt-4-32k",
-    name: "gpt-4-32k",
-    description:
-      "Capable of very simple tasks, usually the fastest model in the OpenAI series, and lowest cost.",
-    type: "OpenAI",
-    strengths:
-      "Parsing text, simple classification, address correction, keywords",
-  },
-  {
-    id: "gpt-4-32k-0314",
-    name: "gpt-4-32k-0314",
-    description:
-      "Fairly decent and really fast OpenAI model. Can do any task the other models can do, often with higher quality, longer output and better instruction-following. Also supports inserting completions within text.",
-    type: "OpenAI",
-    strengths:
-      "Complex intent, cause and effect, creative generation, search, summarization for audience",
-  },
-  {
-    id: "gpt-4-32k-0613",
-    name: "gpt-4-32k-0613",
-    description: "Very capable, but faster and lower cost than gpt-4-32k-0314.",
-    type: "OpenAI",
-    strengths:
-      "Language translation, complex classification, sentiment, summarization",
+    baseUri: 'https://api.openai.com/v1/',
+    apiKey: process.env.OPENAI_API_KEY!
   },
   {
     id: "gpt-3.5-turbo",
@@ -67,38 +30,20 @@ export const models: Model<ModelType>[] = [
     description: "Capable of straightforward tasks, very fast, and lower cost.",
     type: "OpenAI",
     strengths: "Moderate classification, semantic search",
+    baseUri: 'https://api.openai.com/v1/',
+    apiKey: process.env.OPENAI_API_KEY!
   },
   {
-    id: "gpt-3.5-turbo-16k",
-    name: "gpt-3.5-turbo-16k",
-    description:
-      "Capable of very simple tasks, usually the fastest model in the OpenAI series, and lowest cost.",
-    type: "OpenAI",
-    strengths:
-      "Parsing text, simple classification, address correction, keywords",
-  },
-  {
-    id: "gpt-3.5-turbo-0301",
-    name: "gpt-3.5-turbo-0301",
-    description:
-      "Fairly decent and really fast OpenAI model. Can do any task the other models can do, often with higher quality, longer output and better instruction-following. Also supports inserting completions within text.",
-    type: "OpenAI",
-    strengths:
-      "Complex intent, cause and effect, creative generation, search, summarization for audience",
-  },
-  {
-    id: "gpt-3.5-turbo-0613",
-    name: "gpt-3.5-turbo-0613",
-    description: "Very capable, but faster and lower cost than gpt-3.5-turbo-0301.",
-    type: "OpenAI",
-    strengths:
-      "Language translation, complex classification, sentiment, summarization",
-  },
-  {
-    id: "gpt-3.5-turbo-16k-0613",
-    name: "gpt-3.5-turbo-16k-0613",
-    description: "Capable of straightforward tasks, very fast, and lower cost.",
-    type: "OpenAI",
+    id: "accounts/fireworks/models/llama-v2-70b-chat",
+    name: "llama-v2-70b-chat",
+    description: "Opensource chat model",
+    type: "Llama",
     strengths: "Moderate classification, semantic search",
+    baseUri: 'https://api.fireworks.ai/inference/v1',
+    apiKey: process.env.FIREWORKS_API_KEY!
   },
 ]
+
+export const getModelById = (id: string) => {
+  return models.find((model) => model.id === id)
+}

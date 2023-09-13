@@ -5,7 +5,15 @@ const useLocalStorage = <T>(
   initialValue: T,
   // eslint-disable-next-line no-unused-vars
 ): [T, (value: T) => void] => {
-  const [storedValue, setStoredValue] = useState(initialValue);
+  const [storedValue, setStoredValue] = useState<T>(() => {
+    try {
+      const item = window.localStorage.getItem(key);
+      return item ? JSON.parse(item) : initialValue;
+    } catch (error) {
+      console.log(error);
+      return initialValue;
+    }
+  });
 
   useEffect(() => {
     // Retrieve from localStorage

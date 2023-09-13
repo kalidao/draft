@@ -2,16 +2,13 @@ import { UseChatHelpers } from 'ai/react'
 import * as React from 'react'
 import Textarea from 'react-textarea-autosize'
 
-import { Button, buttonVariants } from '@/components/ui/button'
-import { ArrowDownIcon, PlusIcon } from 'lucide-react'
+import { Button } from '@/components/ui/button'
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger
 } from '@/components/ui/tooltip'
 import { useEnterSubmit } from '@/hooks/use-enter-submit'
-import { cn } from '@/lib/utils'
-import { usePathname, useRouter } from 'next/navigation'
 import { PaperPlaneIcon } from '@radix-ui/react-icons'
 
 export interface PromptProps
@@ -28,8 +25,6 @@ export function PromptForm({
 }: PromptProps) {
   const { formRef, onKeyDown } = useEnterSubmit()
   const inputRef = React.useRef<HTMLTextAreaElement>(null)
-  const router = useRouter()
-  const path = usePathname()
 
   React.useEffect(() => {
     if (inputRef.current) {
@@ -50,25 +45,6 @@ export function PromptForm({
       ref={formRef}
     >
       <div className="relative flex max-h-60 w-full grow flex-col overflow-hidden bg-background-muted px-8 sm:rounded-lg sm:px-12">
-        {/* <Tooltip>
-          <TooltipTrigger asChild>
-            <button
-              onClick={e => {
-                e.preventDefault()
-                router.refresh()
-                router.push(path)
-              }}
-              className={cn(
-                buttonVariants({ size: 'sm', variant: 'outline' }),
-                'absolute left-0 top-4 h-8 w-8 rounded-full bg-background p-0 sm:left-4'
-              )}
-            >
-              <PlusIcon />
-              <span className="sr-only">New Chat</span>
-            </button>
-          </TooltipTrigger>
-          <TooltipContent>New Chat</TooltipContent>
-        </Tooltip> */}
         <Textarea
           ref={inputRef}
           tabIndex={0}

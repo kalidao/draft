@@ -46,7 +46,7 @@ export async function POST(req: Request): Promise<Response> {
     }
   }
 
-  let { prompt } = await req.json();
+  let { prompt, model } = await req.json();
 
   const response = await openai.chat.completions.create({
     model: "gpt-3.5-turbo",

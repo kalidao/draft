@@ -27,18 +27,36 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover"
 
-import { Model, ModelType } from "@/lib/models"
+import { Model, ModelType, getModelById } from "@/lib/models"
+import useLocalStorage from "@/hooks/use-local-storage"
 
 interface ModelSelectorProps extends PopoverProps {
   types: readonly ModelType[]
   models: Model[]
-  model?: Model
 }
 
-export function ModelSelector({ model, models, types, ...props }: ModelSelectorProps) {
+export function ModelSelector({ models, types, ...props }: ModelSelectorProps) {
   const [open, setOpen] = React.useState(false)
-  const [selectedModel, setSelectedModel] = React.useState<Model>(model ?? models[0])
-  const [peekedModel, setPeekedModel] = React.useState<Model>(model ?? models[0])
+  const [saveModel, setSaveModel] = useLocalStorage<null | string>("model", null)
+  const savedModel = saveModel ? getModelById(saveModel) : null;
+
+  const [selectedModel, setSelectedModel] = React.useState<Model>(savedModel || models[0]);
+  const [peekedModel, setPeekedModel] = React.useState<Model>(models[0])
+
+  React.useEffect(() => {
+    if (saveModel) {
+      const model = getModelById(saveModel)
+      
+      if (model) {
+        if (selectedModel !== model) setSelectedModel(model)
+        if (peekedModel !== model) setPeekedModel(model)
+      }
+    }
+  }, [])
+
+  React.useEffect(() => {
+      setSaveModel(selectedModel.id)
+  }, [selectedModel, setSaveModel])
 
   return (
     <div className="grid gap-2">

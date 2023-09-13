@@ -2,9 +2,10 @@
 import { Dispatch, FC, SetStateAction, useEffect, useRef, useState } from "react";
 import { Editor } from "@tiptap/core";
 import { TrashIcon } from "lucide-react";
-import { CheckIcon, MagicWandIcon } from "@radix-ui/react-icons";
-import { cn, getUrlFromString } from "@/lib/utils";
-import { useChat, useCompletion } from "ai/react";
+import {  MagicWandIcon } from "@radix-ui/react-icons";
+import {  useCompletion } from "ai/react";
+import useLocalStorage from "@/hooks/use-local-storage";
+import { models } from "@/lib/models";
 
 interface InstructionPrompterProps {
     editor: Editor;
@@ -23,8 +24,12 @@ export const InstructionPrompter: FC<InstructionPrompterProps> = ({
     setIsOpen,
   }) => {
     const [selection, setSelection] = useState<TextSelection | null>(null);
+    const [model] = useLocalStorage('model', models[1].id)
     const { complete }= useCompletion({
         api: '/api/completion',
+        body: {
+          model
+        }
     })
     const inputRef = useRef<HTMLInputElement>(null);
 

@@ -13,7 +13,7 @@ const openai = new OpenAI({
  
 export async function POST(req: Request) {
   // Extract the `prompt` from the body of the request
-  const { prompt: instruction, content } = await req.json()
+  const { prompt: instruction, content, model } = await req.json()
 
   const response = await openai.chat.completions.create({
     model: 'gpt-3.5-turbo-0613',

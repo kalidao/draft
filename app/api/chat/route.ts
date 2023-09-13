@@ -4,34 +4,37 @@ import OpenAI from 'openai'
 
 // import { auth } from '@/auth'
 import { nanoid } from '@/lib/utils'
+import { getModelById } from '@/lib/models'
 
 export const runtime = 'edge'
 
 const openai = new OpenAI({
     apiKey: process.env.OPENAI_API_KEY!
-  })
+})
 
 export async function POST(req: Request) {
   const json = await req.json()
-  const { messages, previewToken } = json
-  // const userId = (await auth())?.user.id
+  const { messages, previewToken, model: modelId, temperature } = json
 
-    //   if (!userId) {
-    //     return new Response('Unauthorized', {
-    //       status: 401
-    //     })
-    //   }
+  const model = getModelById(modelId)
 
-  if (previewToken) {
-    openai.apiKey = previewToken
+  console.log('model', model, modelId)
+
+  if (!model) {
+    throw new Error('Model not found')
   }
 
-  console.log('messages', messages)
+  if (model.type === "OpenAI" && previewToken) {
+    openai.apiKey = previewToken
+  } else {
+    openai.baseURL = model.baseUri
+    openai.apiKey = model.apiKey
+  }
   
   const res = await openai.chat.completions.create({
-    model: 'gpt-3.5-turbo',
+    model: model.id,
     messages,
-    temperature: 0.7,
+    temperature: temperature ?? 0.7,
     stream: true
   })
 

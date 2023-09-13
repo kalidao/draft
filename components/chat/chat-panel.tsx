@@ -1,9 +1,7 @@
 import { type UseChatHelpers } from 'ai/react'
 
-import { Button } from '@/components/ui/button'
 import { PromptForm } from '@/components/chat/prompt-form'
 import { ButtonScrollToBottom } from '@/components/chat/button-scroll-to-bottom'
-import { RefreshCwIcon, StopCircleIcon } from 'lucide-react'
 import { FooterText } from '@/components/chat/chat-footer'
 
 export interface ChatPanelProps

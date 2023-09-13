@@ -59,6 +59,7 @@
     "lucide-react": "^0.272.0",
     "nanoid": "^4.0.2",
     "next": "13.4.19",
+    "next-themes": "^0.2.1",
     "openai": "^4.3.0",
     "openai-edge": "^1.2.2",
     "postcss": "8.4.28",

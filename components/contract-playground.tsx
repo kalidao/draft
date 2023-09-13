@@ -11,6 +11,7 @@ import { DocChat } from "./doc-chat"
 import DEFAULT_EDITOR_CONTENT from "@/components/editor/default-content";
 import { JSONContent } from "@tiptap/core"
 import { cn } from "@/lib/utils"
+import { ModeToggle } from "./mode-toggle"
 
 interface ContractPlaygroundProps {
     preset?: Preset,
@@ -26,9 +27,7 @@ export const ContractPlayground = ({
       "content",
       preset ? preset.content : DEFAULT_EDITOR_CONTENT,
     ); 
-
-   
-
+    
     return (
       <div className='w-screen min-h-screen grid grid-cols-5 space-y-0'>
         {/* <div className="flex flex-col justify-center md:hidden">
@@ -48,17 +47,17 @@ export const ContractPlayground = ({
           </div> */}
            {/* <ContractForm preset={preset} /> */}
         {/* </div> */}
-            
             <Editor setIsChatOpen={setIsChatOpen} isChatOpen={isChatOpen} preset={preset} setContent={setContent as (content: JSONContent) => void} content={content as JSONContent} className={cn("w-full min-h-screen p-4 m-0", isChatOpen ? 'col-span-4' : 'col-span-5')} /> 
             {isChatOpen ? <div className="col-span-1 h-full m-0 pt-1">
               <div className="w-full flex flex-row justify-between">
                 <PresetSelector presets={presets} preset={preset} />
                 {/* <PresetSave />
                 <PresetShare />  */}
+                <ModeToggle />
                 <SettingsDialog />
               </div>
               {/* <Separator orientation="vertical" className='min-h-screen bg-black w-5' /> */}
-              <DocChat content={content as JSONContent} />
+              <DocChat model={model} content={content as JSONContent} />
             </div> : null}
           </div>
     )};
